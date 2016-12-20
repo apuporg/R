@@ -1,0 +1,320 @@
+#
+# XMAS CARD 2016
+#
+#################3
+
+# relevant function
+draw_pixels<-function(dat,cshade){
+	x<-dat$x
+	y<-dat$y
+	for(w in 1:nrow(dat)){
+	rect(xleft=x[w]-0.5,xright=x[w]+0.5,ybottom=y[w]-0.5,ytop=y[w]+0.5,col=cshade, border=cshade)
+	}
+}
+
+dev.new(height=7,width=7, units="in")
+
+# not gonna comment...in details
+# but this code does not install or load anything external - do not worry :)
+
+#
+# assisting functions
+#############
+is.even <- function(x) x %% 2 == 0
+
+tailFlame<-function(sta, end){
+	curve(sin(t)+8, sta, end, xname = "t", col="#FD0000", add=TRUE, lwd=12)
+	curve(sin(t)+6, sta, end, xname = "t", col="#FE9900", add=TRUE, lwd=12)
+	curve(sin(t)+4, sta, end, xname = "t", col="#FEFE00", add=TRUE, lwd=12)
+	curve(sin(t)+2, sta, end, xname = "t", col="#33FD00", add=TRUE, lwd=12)
+	curve(sin(t)+0, sta, end, xname = "t", col="#0098FD", add=TRUE, lwd=12)
+}
+
+comeAlive<-function(a1,a2,b1,b2,c1,c2,d1,d2,e1,e2,f1,f2,g1,g2){
+	draw_pixels(data.frame(x=a1,y=a2),"#FDCC99")
+	draw_pixels(data.frame(x=b1,y=b2),"#FF99FF")
+	draw_pixels(data.frame(x=c1,y=c2),"#999999")
+	draw_pixels(data.frame(x=d1,y=d2),"black")
+	draw_pixels(data.frame(x=e1,y=e2),"#EE3696")
+	draw_pixels(data.frame(x=f1,y=f2),"#F89F9A")
+	draw_pixels(data.frame(x=g1,y=g2),"white")
+}
+
+#
+# constants
+#############
+# spexes
+n<-100
+xli<-c(-1,n)
+yli<-c(-1,n)
+ce<-3.2*28/n
+colR<- rainbow(60)	# rainbow !
+
+# msg
+opa1<-rbind(c(50,60,50,40),c(60,50,50,40),c(65,65,50,40),c(65,70,50,45),c(70,75,45,50),c(75,75,50,40),c(80,80,50,40),c(90,90,50,40),c(80,90,50,50),c(80,90,45,45),c(95,105,50,50),c(95,105,40,40),c(95,105,45,45),c(95,95,50,45),c(105,105,45,40))
+
+
+opa2<-rbind(c(40,40,90,80),c(40,45,90,85),c(45,50,85,90),c(50,50,90,80),c(55,55,90,80),c(55,60,90,90),c(55,60,85,85),c(55,60,80,80),c(65,65,90,80),c(65,75,90,90),c(65,75,85,85),c(75,75,85,90),c(73,75,85,80),c(80,80,90,80),c(80,90,90,90),c(80,90,85,85),c(90,90,85,90),c(87,90,85,80),c(95,100,90,85),c(100,105,85,90),c(100,100,85,80))
+
+
+# b
+torso_x<-c(7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,27,27,27,27,27,7,7,7,7,7,7,7,7,7,7,7,7,7,9,10,11,12,13,14,15,16,17,18,19,8)
+torso_y<-c(18,19,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,19,18,17,16,15,14,13,5,6,7,8,9,10,11,12,13,14,15,16,17,3,3,3,3,3,3,3,3,3,3,3,4)
+
+head_x<-c(27,28,29,30,31,31,31,31,32,32,32,32,32,31,30,29,19,20,21,22,23,24,25,26,18,18,18,18,17,17,17,17,17,18,19,22,22,21,29,29,28,26,22,25,28,22,23,24,25,26,27,28,20,21,22,23,24,25,26,27,28,29)
+head_y<-c(13,14,15,15,14,13,12,11,10,9,8,7,6,5,4,3,15,15,14,13,12,12,12,12,14,13,12,11,10,9,8,7,6,5,4,9,8,8,9,8,8,8,6,6,6,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3)
+
+feet1_x<-c(28,27,26,25)
+feet1_y<-c(2,1,1,2)
+
+feet2_x<-c(23,23,22,21,20)
+feet2_y<-c(2,1,1,1,2)
+
+feet3_x<-c(14,13,12,11,11)
+feet3_y<-c(2,1,1,1,2)
+
+feet4_x<-c(9,8,8,7,6,5,5,5,6,7)
+feet4_y<-c(2,2,1,1,1,1,2,3,4,4)
+
+tail_x<-c(6,6,5,4,4,3,3,2,2,1,1,1,2,3,4,4,5,5,6,6)
+tail_y<-c(7,8,8,8,9,9,10,10,11,11,12,13,13,13,13,12,12,11,11,10)
+
+# g
+
+gtail_x<-c(2,3,3,4,4,5,5,6)
+gtail_y<-c(12,12,11,11,10,10,9,9)
+
+ghead_x<-c(19,20,29,30,19,20,21,28,29,30,19,20,21,22,23,24,25,26,27,28,29,30,19,20,21,22,23,24,25,26,27,28,29,30,18,19,20,21,22,23,24,25,26,27,28,29,30,31,18,19,20,21,22,23,24,25,26,27,28,29,30,31,18,19,20,21,22,23,24,25,26,27,28,29,30,31,18,19,20,21,22,23,24,25,26,27,28,29,30,31,18,19,20,21,22,23,24,25,26,27,28,29,30,31,19,20,21,22,23,24,25,26,27,28,29,30,20,21,22,23,24,25,26,27,28,29)
+ghead_y<-c(14,14,14,14,13,13,13,13,13,13,12,12,12,12,12,12,12,12,12,12,12,12,11,11,11,11,11,11,11,11,11,11,11,11,10,10,10,10,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4)
+
+gfeet1_x<-c(26,27)
+gfeet1_y<-c(2,2)
+
+gfeet2_x<-c(21,22)
+gfeet2_y<-c(2,2)
+
+gfeet3_x<-c(12,13)
+gfeet3_y<-c(2,2)
+
+gfeet4_x<-c(6,7,8,6,7)
+gfeet4_y<-c(3,3,3,2,2)
+
+peach_nx1<-c(rep(c(8:26),16))
+peach_ny1<-c(rep(4,19),rep(5,19),rep(6,19),rep(7,19),rep(8,19),rep(9,19),rep(10,19),rep(11,19),rep(12,19),rep(13,19),rep(14,19),rep(15,19),rep(16,19),rep(17,19),rep(18,19),rep(19,19))
+
+lila_nx1<-c(rep(c(11:23),15),rep(10,12),rep(24,12),rep(9,10),rep(25,10))
+lila_ny1<-c(rep(5,13),rep(5,13),rep(6,13),rep(7,13),rep(8,13),rep(9,13),rep(10,13),rep(11,13),rep(12,13),rep(13,13),rep(14,13),rep(15,13),rep(16,13),rep(17,13),rep(18,13),c(6:17),c(6:17),c(7:16),c(7:16))
+
+
+berry_nx1<-c(11,16,19,23,15,12,10,16,14,11)
+berry_ny1<-c(16,17,17,15,13,11,9,10,7,6)
+
+pink_nx1<-c(19,20,19,20,30,31,30,31)
+pink_ny1<-c(7,7,6,6,7,7,6,6)
+
+white_nx1<-c(21,28)
+white_ny1<-c(9,9)
+
+poem<-rbind("came here to say",
+	"have xmas in nyan way:",
+	"smile like a maniac",
+	"and be sweet-kleptomaniac.",
+	"as this leads",
+	"to have rose cheeks",
+	"and happy torso of pastries!"
+)
+
+#
+# joints
+#########
+
+black_nx1<-c(torso_x,head_x,feet1_x,feet2_x,feet3_x,feet4_x,tail_x)
+black_nx2<-c(torso_x,head_x+1,feet1_x+2,feet2_x+2,feet3_x+2,feet4_x+2,tail_x,c(20:29))
+black_ny1<-c(torso_y,head_y,feet1_y,feet2_y,feet3_y,feet4_y,tail_y)
+black_ny2<-c(torso_y,head_y+1,feet1_y,feet2_y,feet3_y,feet4_y,tail_y,rep(3,10))
+
+gray_nx1<-c(gtail_x,ghead_x,gfeet1_x,gfeet2_x,gfeet3_x,gfeet4_x)
+gray_nx2<-c(gtail_x,ghead_x+1,gfeet1_x+2,gfeet2_x+2,gfeet3_x+2,gfeet4_x+2)
+gray_ny1<-c(gtail_y,ghead_y,gfeet1_y,gfeet2_y,gfeet3_y,gfeet4_y)
+gray_ny2<-c(gtail_y,ghead_y+1,gfeet1_y,gfeet2_y,gfeet3_y,gfeet4_y)
+
+pink_nx1<-pink_nx1
+pink_nx2<-pink_nx1+1
+pink_ny1<-pink_ny1
+pink_ny2<-pink_ny1+1
+
+white_nx1<-white_nx1
+white_nx2<-white_nx1+1
+white_ny1<-white_ny1
+white_ny2<-white_ny1+1
+
+
+black_nx<-black_nx1
+black_ny<-black_ny1
+peach_nx<-peach_nx1
+peach_ny<-peach_ny1
+lila_nx<-lila_nx1
+lila_ny<-lila_ny1
+berry_nx<-berry_nx1
+berry_ny<-berry_ny1
+gray_nx<-gray_nx1
+gray_ny<-gray_ny1
+white_nx<-white_nx1
+white_ny<-white_ny1
+pink_nx<-pink_nx1
+pink_ny<-pink_ny1
+
+# main
+
+par(mar=c(0,0,0,0),bg="blue")
+plot(x=black_nx,y=black_ny,pch=15, xlim=xli,ylim=yli,cex=ce,type="n", asp=1)
+par(ask=TRUE, mar=c(0,0,0,0),bg="blue")
+dist<-30
+maksi<-28
+j<-1
+
+for (i in 1:maksi){
+	if(i==1){print("Please, click the image OR press enter")}
+    plot(x=black_nx,y=black_ny,pch=15, xlim=xli,ylim=yli,cex=ce,type="n",asp=1)
+
+	if(is.even(i) & i<21){
+		black_nx<-black_nx2;black_ny<-black_ny2
+		gray_nx<-gray_nx2;gray_ny<-gray_ny2
+		pink_nx<-pink_nx2;pink_ny<-pink_ny2
+		white_nx<-white_nx2;white_ny<-white_ny2
+	}else{
+		black_nx<-black_nx1;black_ny<-black_ny1
+		gray_nx<-gray_nx1;gray_ny<-gray_ny1
+		pink_nx<-pink_nx1;pink_ny<-pink_ny1
+		white_nx<-white_nx1;white_ny<-white_ny1
+	}
+	
+	
+	if(i<21){
+		tailFlame(-10,(i*2-24))
+	}else{
+		tailFlame(-10,(20*2-24))}
+
+	if(i<21 & i<maksi){
+		dist<-dist-2}else if(i>=21 & i<maksi){
+		legend(35,35,c(poem[j,1],"                                                  "), bg="white",box.lwd=4); j<-j+1
+			if(is.even(i) ){
+		black_nx<-black_nx2;black_ny<-black_ny2+1
+		gray_nx<-gray_nx2;gray_ny<-gray_ny2+1
+		berry_ny<-berry_ny1+1
+		lila_ny<-lila_ny1+1
+		peach_ny<-peach_ny1+1
+		pink_nx<-pink_nx2;pink_ny<-pink_ny2+1
+		white_nx<-white_nx2;white_ny<-white_ny2+1
+	}else{
+		black_nx<-black_nx1;black_ny<-black_ny1
+		gray_nx<-gray_nx1;gray_ny<-gray_ny1
+		pink_nx<-pink_nx1;pink_ny<-pink_ny1
+		berry_ny<-berry_ny1
+		white_nx<-white_nx1;white_ny<-white_ny1
+		lila_ny<-lila_ny1
+		peach_ny<-peach_ny1
+	}
+		}
+	
+	if(i==maksi){
+		for(k in 1:60){
+			lines(k/3+c(50,50)-33,sin(k/3)+c(90,80),lwd=3,col=colR[k])
+		}
+
+		for(k in 1:(dim(opa2)[1])){
+			lines(opa2[k,c(1,2)]-3,opa2[k,c(3,4)],lwd=6)
+		}
+
+		for(u in (dim(opa1)[1]-1):(dim(opa1)[1])){
+			for(k in 1:59){
+				lines(k/3+c(50,55)-23,sin(k/3)+c(50,45),lwd=3,col=colR[k])
+		}}
+
+		for(u in (dim(opa1)[1]-1):(dim(opa1)[1])){
+			for(k in 1:60){
+				lines(k/3+c(50,55)-23,sin(k/3)+c(40,44.9),lwd=3,col=colR[k])
+		}}
+
+
+		for(k in 1:(dim(opa1)[1])){
+			lines(opa1[k,c(1,2)]-3,opa1[k,c(3,4)],lwd=6)
+		}}
+
+		comeAlive(peach_nx-dist,peach_ny,lila_nx-dist,lila_ny,gray_nx-dist,gray_ny,black_nx-dist,black_ny,berry_nx-dist,berry_ny,pink_nx-dist,pink_ny,white_nx-dist,white_ny)
+		
+		if(i==23){	draw_pixels(data.frame(x=white_nx-dist,y=white_ny),"red") 
+		}
+		if(i==26){	draw_pixels(data.frame(x=pink_nx-dist,y=pink_ny),"red2") 
+		}
+		if(i==(maksi-1)){	
+					draw_pixels(data.frame(x=white_nx-dist,y=white_ny),"#999999")
+					draw_pixels(data.frame(x=white_nx-dist+1,y=white_ny),"#999999")
+					}
+
+		if(i==maksi){	
+					draw_pixels(data.frame(x=white_nx[1]-dist+1,y=white_ny[1]),"#999999")
+					draw_pixels(data.frame(x=white_nx[1]-dist,y=white_ny[1]),"#999999")
+					}
+}
+
+# final act
+Sys.sleep(3.5)
+
+x<-seq(1,100,10)
+y<-rep(100,length(x))-sample(1:10,10)
+oldx<-x
+oldx2<-x
+oldx3<-x
+xheitto<-sample(1:10,10)
+
+for(i in 1:60){
+	draw_pixels(data.frame(x=oldx3,y=y-i),"blue")
+	draw_pixels(data.frame(x=oldx2,y=y-i-1),"#AEADFF")
+	draw_pixels(data.frame(x=oldx,y=y-i-2),"#D8D8FF")
+	draw_pixels(data.frame(x=x,y=y-i-3),"white")
+	
+	if(i>10){
+		draw_pixels(data.frame(x=oldx3+xheitto,y=y-i+10),"blue")
+		draw_pixels(data.frame(x=oldx2+xheitto,y=y-i-1+10),"#AEADFF")
+		draw_pixels(data.frame(x=oldx+xheitto,y=y-i-2+10),"#D8D8FF")
+		draw_pixels(data.frame(x=x+xheitto,y=y-i-3+10),"white")	
+	}
+
+	if(i>20){
+		draw_pixels(data.frame(x=oldx3+xheitto+2,y=y-i+20),"blue")
+		draw_pixels(data.frame(x=oldx2+xheitto+2,y=y-i-1+20),"#AEADFF")
+		draw_pixels(data.frame(x=oldx+xheitto+2,y=y-i-2+20),"#D8D8FF")
+		draw_pixels(data.frame(x=x+xheitto+2,y=y-i-3+20),"white")	
+	}
+
+	if(i>30){
+		draw_pixels(data.frame(x=oldx3+xheitto-2,y=y-i+30),"blue")
+		draw_pixels(data.frame(x=oldx2+xheitto-2,y=y-i-1+30),"#AEADFF")
+		draw_pixels(data.frame(x=oldx+xheitto-2,y=y-i-2+30),"#D8D8FF")
+		draw_pixels(data.frame(x=x+xheitto-2,y=y-i-3+30),"white")	
+	}
+
+	if(i>40){
+		draw_pixels(data.frame(x=oldx3,y=y-i+40),"blue")
+		draw_pixels(data.frame(x=oldx2,y=y-i-1+40),"#AEADFF")
+		draw_pixels(data.frame(x=oldx,y=y-i-2+40),"#D8D8FF")
+		draw_pixels(data.frame(x=x,y=y-i-3+40),"white")	
+	}
+
+	if(i>50){
+		draw_pixels(data.frame(x=oldx3+xheitto,y=y-i+50),"blue")
+		draw_pixels(data.frame(x=oldx2+xheitto,y=y-i-1+50),"#AEADFF")
+		draw_pixels(data.frame(x=oldx+xheitto,y=y-i-2+50),"#D8D8FF")
+		draw_pixels(data.frame(x=x+xheitto,y=y-i-3+50),"white")	
+	}
+	
+	Sys.sleep(0.4)
+	oldx3<-oldx2
+	oldx2<-oldx
+	oldx<-x
+	x<-x-sample(-1:1,10,replace=TRUE)
+}
+
+text(x=50,y=10,"...and happy new year, snow and stuff",pos=4)
+text(x=50,y=5,"from .apup",pos=4)

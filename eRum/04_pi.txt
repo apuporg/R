@@ -1,0 +1,40 @@
+
+data<-numeric()
+data<-readLines("http://www.apup.org/images/digits100000.txt")		# orig. data source http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
+
+# subset of 10'000 digits
+dataA<-numeric()
+dataA<-substr(data,1,10000)
+
+# colors
+pal <- colorRampPalette(c("#f2f2f2", "blue"))
+colors <- pal(10000)
+
+# image settings. here manually set limits (by visual eye).
+dev.new(height=7,width=7)
+par(bg="black", mar=c(0,0,0,0))
+plot(x=0,y=0,xlim=c(-50,70), ylim=c(-100,40))
+
+# initial values
+a_x <- a_y <- numeric()
+a_x <- 0; a_y <- 0;
+
+# loop decimals. each digit (0-9) represents an individual angle.
+for(i in 1:nchar(dataA)){
+	a<-b_x<-b_y<-numeric()
+	a<-as.numeric(substr(dataA,i,i))
+
+	b_x<-a_x+sin((2*pi/10)*(a))	# orig. y pos. + change	
+	b_y<-a_y+cos((2*pi/10)*(a))	# orig. x pos. + change
+	
+	# draw points. change colors.
+	points(x=c(a_x,b_x),y=c(a_y,b_y),type="l", col=colors[i])
+	points(x=c(b_x),y=c(b_y),pch=19, col=colors[i],cex=0.3)	
+	
+	# initialize next round
+	a_x<-b_x
+	a_y<-b_y
+}
+
+text(x=40, y=0, labels=expression(pi), col="#f2f2f2", cex=12, pos=4)	# title
+text(x=52, y=10.6, labels="10000", col="black",cex=0.7, pos=4)			# decimal amount
